@@ -1,5 +1,5 @@
 可以直接运行face_swap.py或get_68_point.py，作用分别是换脸和手动选取人脸68个特征点。
-光流程序optical_flow.py还有bug，需要修改。
+光流程序optical_flow.py也可以直接运行
 
 文件夹结构：
 --------
@@ -11,7 +11,7 @@
             |-..
         |-get_68_point.py //获取68个点的程序，需按照下方人脸标定规则去点
         |-face_swap.py    //线性几何变换换脸
-        |-optical_flow.py //(有bug)光流，在读取一个视频后可以输出光流信息
+        |-optical_flow.py //(Bug已修复)光流，在读取一个视频后可以输出光流信息
 
 [光流源代码](https://opencv24-python-tutorials.readthedocs.io/en/latest/py_tutorials/py_video/py_lucas_kanade/py_lucas_kanade.html)
 
