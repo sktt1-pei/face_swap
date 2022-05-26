@@ -2,6 +2,7 @@ from time import sleep
 
 import numpy as np
 import cv2
+import get_point
 
 cap = cv2.VideoCapture('sample_data/trump.mp4')
 
@@ -23,8 +24,8 @@ color = np.random.randint(0, 255, (100, 3))
 # Take first frame and find corners in it
 ret, old_frame = cap.read()
 old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
-p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
-
+p0 = get_point.getMousePos(old_gray)
+#p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
 # Create a mask image for drawing purposes
 mask = np.zeros_like(old_frame)
 
@@ -37,8 +38,11 @@ while (1):
                                            **lk_params)
 
     # Select good points
-    good_new = p1[st == 1]
-    good_old = p0[st == 1]
+    try:
+        good_new = p1[st == 1]
+        good_old = p0[st == 1]
+    except:
+        pass
 
     # draw the tracks
     for i, (new, old) in enumerate(zip(good_new, good_old)):
@@ -53,7 +57,7 @@ while (1):
     img = cv2.add(frame, mask)
 
     cv2.imshow('frame', img)
-    sleep(1)
+    sleep(1/60)
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
