@@ -23,7 +23,7 @@
 #人脸标定
 
 ![ava 图标](https://ewr1.vultrobjects.com/imgur1/000/003/484/999_2b4_f18.jpg)
-
+![ava 图标](https://bbsmax.ikafan.com/static/L3Byb3h5L2h0dHBzL2ltYWdlczIwMTguY25ibG9ncy5jb20vYmxvZy8yNjIzODAvMjAxODA0LzI2MjM4MC0yMDE4MDQwMzE4MjQ1MDA1Ny0xNjQ2NTM4NTczLnBuZw==.jpg)
 // 鼻尖 30  
 // 鼻根 27  
 // 下巴 8  
