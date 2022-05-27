@@ -135,6 +135,12 @@ if __name__ =='__main__':
     img2  = cv2.imread(filename2)
     img1Warped = np.copy(img2)
 
+    index = np.zeros((68,1),dtype='int')
+    for i in range(68):
+        index[i][0] = i
+
+    print("index")
+    print(index)
     # Read array of corresponding points
     points1 = readPoints(txt_path1)
     print(len(points1))
@@ -145,16 +151,24 @@ if __name__ =='__main__':
     hull2 = []
     img_corp = img1.copy()
     hullIndex = cv2.convexHull(np.array(points2),returnPoints= False)
-
+    print("hull")
+    print(hullIndex)
+    print(len(hullIndex))
     # find convexHull
     hullIndex1 = cv2.convexHull(np.array(points1))
+    hullIndex = index
+    hullIndex1 = index
+    print(len(hullIndex1))
     for i in range(len(hullIndex1)):
         cv2.line(img_corp,tuple(hullIndex1[i][0]),tuple(hullIndex1[(i+1)%len(hullIndex1)][0]),(255,0,0),2)
         #cv2.circle(img_corp,i,2,(205,0,0),2)
     img_point = img1.copy()
+    print(len(img_point))
     for i in points1:
         cv2.circle(img_point,tuple(i),2,(0,255,0),5)
     fillbox = np.hstack((img1,img_point,img_corp))
+    print("test###")
+    print(len(fillbox))
     cv2.imwrite("sswap/fillbox.png",fillbox)
 
     for i in range(0,len(hullIndex)):
@@ -234,6 +248,10 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
     img2 = frame
     img1Warped = np.copy(img2)
 
+
+    index = np.zeros((68,1),dtype='int32')
+    for i in range(68):
+        index[i][0] = i
     # Read array of corresponding points
     #points1 = readPoints(txt_path1)
     #print(len(points1))
@@ -255,8 +273,14 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
     hullIndex = cv2.convexHull(np.array(points2_valid), returnPoints=False)
 
     # find convexHull
-    hullIndex1 = cv2.convexHull(np.array(points1_valid))
+    hullIndex1 = np.array(points1_valid)
+
+    hullIndex = index
+    # hullIndex1 = index
+
+
     for i in range(len(hullIndex1)):
+        print(i)
         cv2.line(img_corp, tuple(hullIndex1[i][0]), tuple(hullIndex1[(i + 1) % len(hullIndex1)][0]), (255, 0, 0), 2)
         # cv2.circle(img_corp,i,2,(205,0,0),2)
     img_point = img1.copy()

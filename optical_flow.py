@@ -44,19 +44,19 @@ filename1 = "sswap/1.png"
 while (1):
     # 对每一帧进行读取
     ret, frame = cap.read()
-    print(frame.shape)
+    #print(frame.shape)
 
     # cv2.imshow(out)
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # calculate optical flow
+    # calculate optical flow  p1 是所有的点
     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None,
                                            **lk_params)
 
 
 
 
-    # 得到有效的点的集合
+    # 得到有效的点的index集合 相对于68个点集合
     for i in range(len(st)):
         if st[i] == 1:
             pass
@@ -65,7 +65,7 @@ while (1):
     for i in range(len(flg)):
         if(flg[i] == 0 and i in valid):
             valid.remove(i)
-    # ((valid))
+    print((valid))
 
 
     for i in range(len(valid)):
@@ -101,6 +101,6 @@ while (1):
     old_gray = frame_gray.copy()
     # n * 1 * 2 表示点
     p0 = good_new.reshape(-1, 1, 2)
-    print(p0)
+    #print(p0)
 cv2.destroyAllWindows()
 cap.release()
