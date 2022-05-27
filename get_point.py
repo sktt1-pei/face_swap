@@ -26,7 +26,7 @@ def getMousePos(image):
             count -= 1
             if count == 0:
                 cv2.destroyAllWindows()
-                with open("sample_data/trump.json", 'w') as f:  # 储存
+                with open("sample_data/obama.json", 'w') as f:  # 储存
                     json.dump(point_set,f)
                 for i in range(len(point_set)):
                     point_array[i][0][0] = point_set[i][0]
@@ -36,8 +36,8 @@ def getMousePos(image):
     cv2.namedWindow("img", cv2.WINDOW_NORMAL)
     img = image
     print(img.shape)
-    if os.path.exists('sample_data/trump.json'):
-        with open('sample_data/trump.json','r') as f:
+    if os.path.exists('sample_data/obama.json'):
+        with open('sample_data/obama.json','r') as f:
             point_set = json.load(f)
         for i in range(len(point_set)):
             point_array[i][0][0] = point_set[i][0]
