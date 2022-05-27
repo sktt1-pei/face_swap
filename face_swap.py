@@ -46,7 +46,7 @@ def calculateDelaunayTriangles(rect,points):
 
     # Insert points into subdiv
     for p in points:
-        print(p)
+        #print(p)
         subdiv.insert(p)
     triangleList = subdiv.getTriangleList()
 
@@ -139,8 +139,8 @@ if __name__ =='__main__':
     for i in range(68):
         index[i][0] = i
 
-    print("index")
-    print(index)
+    #print("index")
+    #print(index)
     # Read array of corresponding points
     points1 = readPoints(txt_path1)
     print(len(points1))
@@ -157,7 +157,8 @@ if __name__ =='__main__':
     # find convexHull
     hullIndex1 = cv2.convexHull(np.array(points1))
     hullIndex = index
-    hullIndex1 = index
+    list = [[[c[0], c[1]]] for c in points2]
+    hullIndex1 = np.array(list)
     print(len(hullIndex1))
     for i in range(len(hullIndex1)):
         cv2.line(img_corp,tuple(hullIndex1[i][0]),tuple(hullIndex1[(i+1)%len(hullIndex1)][0]),(255,0,0),2)
@@ -178,9 +179,9 @@ if __name__ =='__main__':
     # Finde delanauy triangulation for convex hull points
     sizeImg2 = img1.shape
     rect = (0,0,sizeImg2[1],sizeImg2[0])
-
-    print(rect)
-    print(hull2)
+    print("&&&&")
+    print(len(rect))
+    print(len(hull2))
 
     dt = calculateDelaunayTriangles(rect,hull2)
     if(len(dt) == 0):
@@ -209,6 +210,7 @@ if __name__ =='__main__':
     for i in range(0,len(hull2)):
         hull8U.append((hull2[i][0],hull2[i][1]))
 
+
     mask = np.zeros(img2.shape,dtype = img2.dtype)
     cv2.fillConvexPoly(mask,np.int32(hull8U),(255,255,255))
 
@@ -225,7 +227,7 @@ if __name__ =='__main__':
 
 
 
-def face_swap_1(filename1, frame, points1, points2, valid_flg):
+def face_swap_1(filename1, frame, points1, points2):
     # trump -> jpg
     '''
     filename1 -> 1.jpg的脸
@@ -249,9 +251,7 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
     img1Warped = np.copy(img2)
 
 
-    index = np.zeros((68,1),dtype='int32')
-    for i in range(68):
-        index[i][0] = i
+
     # Read array of corresponding points
     #points1 = readPoints(txt_path1)
     #print(len(points1))
@@ -259,28 +259,35 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
     #print(len(points2))
 
     # 有效的点集合
-    points1_valid = []
-    points2_valid = []
-    for i in range(len(valid_flg)):
+    points1_valid = points1
+    points2_valid = points2
+    '''
+        for i in range(len(valid_flg)):
         if(valid_flg[i] == 1):
             points1_valid.append(points1[i])
             points2_valid.append(points2[i])
+    '''
+
+
+    index = np.zeros((len(points2_valid),1), dtype='int32')
+    for i in range(len(points2_valid)):
+        index[i][0] = i
 
     # Find convex hull
     hull1 = []
     hull2 = []
     img_corp = img1.copy()
     hullIndex = cv2.convexHull(np.array(points2_valid), returnPoints=False)
-
+    hullIndex1 = cv2.convexHull(np.array(points1_valid))
     # find convexHull
-    hullIndex1 = np.array(points1_valid)
+    list = [[[c[0], c[1]]] for c in points1_valid]
+    #hullIndex1 = np.array(list)
 
-    hullIndex = index
+    #hullIndex = index
     # hullIndex1 = index
 
 
     for i in range(len(hullIndex1)):
-        print(i)
         cv2.line(img_corp, tuple(hullIndex1[i][0]), tuple(hullIndex1[(i + 1) % len(hullIndex1)][0]), (255, 0, 0), 2)
         # cv2.circle(img_corp,i,2,(205,0,0),2)
     img_point = img1.copy()
@@ -296,8 +303,8 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
     # Finde delanauy triangulation for convex hull points
     sizeImg2 = img1.shape
     rect = (0, 0, sizeImg2[1], sizeImg2[0])
-    print(rect)
-    print(hull2)
+    #print(rect)
+    #print(hull2)
     dt = calculateDelaunayTriangles(rect, hull2)
     if (len(dt) == 0):
         quit()
@@ -330,7 +337,7 @@ def face_swap_1(filename1, frame, points1, points2, valid_flg):
 
     cv2.imwrite(filename3, mask)
     cv2.imwrite(filename4, img1Warped)
-
+    return img1Warped
     r = cv2.boundingRect(np.float32([hull2]))
     center = ((r[0] + int(r[2] / 2), r[1] + int(r[3] / 2)))
     output = cv2.seamlessClone(np.uint8(img1Warped), img2, mask, center, cv2.NORMAL_CLONE)

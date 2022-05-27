@@ -55,7 +55,10 @@ while (1):
 
 
 
-
+    #print("valid")
+    #print(len(valid))
+    #print("st")
+    #print(len(st))
     # 得到有效的点的index集合 相对于68个点集合
     for i in range(len(st)):
         if st[i] == 1:
@@ -65,13 +68,15 @@ while (1):
     for i in range(len(flg)):
         if(flg[i] == 0 and i in valid):
             valid.remove(i)
-    print((valid))
-
-
+    # print((valid))
+    valid_p1 = []
+    for i in range(len(flg)):
+        if flg[i] == 1:
+            valid_p1.append(points1[i])
     for i in range(len(valid)):
         points2[valid[i]] = (p1[i][0][0], p1[i][0][1])
 
-    out = face_swap.face_swap_1(filename1, frame, points1, points2, flg)
+
     # Select good points 选择好的点
     try:
         good_new = p1[st == 1]
@@ -79,7 +84,10 @@ while (1):
     except:
         pass
 
-    # draw the tracks 画出轨迹 没啥用
+    # draw the tracks 画出轨迹 没啥用\
+
+    del_lis = []
+
     for i, (new, old) in enumerate(zip(good_new, good_old)):
         a, b = new.ravel()
         c, d = old.ravel()
@@ -87,12 +95,29 @@ while (1):
         b = int(b)
         c = int(c)
         d = int(d)
+
+        x = (np.abs(a - c) + np.abs(b - d))
+        if x > 100:
+            #flg[i] = 0
+            print(i)
+            del_lis.append(i)
+
         mask = cv2.line(mask, (a, b), (c, d), color[i].tolist(), 2)
         frame = cv2.circle(frame, (a, b), 5, color[i].tolist(), -1)
     img = cv2.add(frame, mask)
 
+    '''
+    for i in range(len(del_lis) - 1, 0, -1):
+        #valid_p1.pop(del_lis[i])
+        np.delete(valid_p1, i)
+        #good_new.pop(del_lis[i])
+        np.delete(good_new, i)
+    '''
+
+
+    out = face_swap.face_swap_1(filename1, frame, valid_p1, good_new)
     cv2.imshow('frame', out)
-    sleep(1/60)
+    #sleep(1/60)
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
