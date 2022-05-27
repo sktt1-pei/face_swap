@@ -10,7 +10,7 @@ valid = [i for i in range(68)]
 # 对所有点的标记 1 - 有效 0 - 无效
 flg = [1 for i in range(68)]
 
-cap = cv2.VideoCapture('sample_data/trump.mp4')
+cap = cv2.VideoCapture('sample_data/obama.mp4')
 
 # params for ShiTomasi corner detection
 feature_params = dict(maxCorners=100,
