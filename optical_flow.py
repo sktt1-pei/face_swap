@@ -4,6 +4,12 @@ import numpy as np
 import cv2
 import get_point
 
+
+# 所有有效的点
+valid = [i for i in range(68)]
+# 对所有点的标记 1 - 有效 0 - 无效
+flg = [1 for i in range(68)]
+
 cap = cv2.VideoCapture('sample_data/trump.mp4')
 
 # params for ShiTomasi corner detection
@@ -37,6 +43,15 @@ while (1):
     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None,
                                            **lk_params)
 
+    for i in range(len(st)):
+        if st[i] == 1:
+            pass
+        else:
+            flg[valid[i]] = 0
+    for i in range(len(flg)):
+        if(flg[i] == 0 and i in valid):
+            valid.remove(i)
+    print((valid))
     # Select good points
     try:
         good_new = p1[st == 1]
