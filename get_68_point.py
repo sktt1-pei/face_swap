@@ -29,7 +29,7 @@ def getMousePos(imgName):
             count -= 1
             if count == 0:
                 cv2.destroyAllWindows()
-                with open("sswap/pointsjpg.txt", 'w') as f:  # 输出所有点集
+                with open("sswap/pointspng.txt", 'w') as f:  # 输出所有点集
                     for i in point_set:
                         f.write(str(i[0]) + ' ' + str(i[1]) + '\n')
                 return
@@ -64,4 +64,4 @@ def start(file: string):
     getMousePos(file)
 
 
-start('sswap/1.jpg')  # 读取图片开始获取所有点
+start('sswap/1.png')  # 读取图片开始获取所有点

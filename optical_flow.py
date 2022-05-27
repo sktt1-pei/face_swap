@@ -30,6 +30,7 @@ color = np.random.randint(0, 255, (100, 3))
 # Take first frame and find corners in it
 ret, old_frame = cap.read()
 old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
+cv2.imwrite('testfile/obama.jpg',old_gray)
 p0 = get_point.getMousePos(old_gray)
 #p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
 # Create a mask image for drawing purposes
